@@ -1,20 +1,40 @@
-import './App.css'
-import { Routes, Route } from 'react-router-dom'
-import Layout from './components/Layout/Layout';
+import './App.css';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContexts';
+
+import MainLayout from './components/Layout/MainLayout';
+import AuthLayout from './components/Layout/AuthLayout';
+
 import Page1 from './pages/Page1';
 import Page2 from './pages/Page2';
-import Page3 from './pages/Page3';
+import Login from './pages/Login';
+import NotFound from './pages/NotFound';
 
 function App() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <Routes>
-      <Route element={<Layout />}>
-        <Route path='/' element={<Page1 />}/>
-        <Route path='/page2' element={<Page2 />}/>
-        <Route path='/page3' element={<Page3 />} />
+      {/* Public layout with Header/Footer */}
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<Page1 />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/page2"
+          element={isAuthenticated ? <Page2 /> : <Navigate to="/login" replace />}
+        />
+
+        {/* 404 Page */}
+        <Route path="*" element={<NotFound />} />
+      </Route>
+
+      {/* Auth layout */}
+      <Route element={<AuthLayout />}>
+        <Route path="/login" element={<Login />} />
       </Route>
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;
