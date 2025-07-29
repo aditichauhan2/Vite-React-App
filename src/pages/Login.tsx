@@ -68,6 +68,7 @@ export default function Login() {
           <div>
             <input
               type="text"
+              autoFocus
               placeholder="Enter Mobile Number"
               autoComplete="off"
               value={mobile}
@@ -92,6 +93,7 @@ export default function Login() {
           <div>
             <input
               type="text"
+              autoFocus
               placeholder="Enter OTP"
               autoComplete="off"
               value={otp}
